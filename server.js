@@ -1,6 +1,8 @@
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
+const { v4: uuidv4 } = require('uuid');
+const { readFromFile, readAndAppend, writeToFile } = require('./helpers/fsUtils');
 const app = express();
 const PORT = process.env.PORT || 3001;
 
@@ -9,12 +11,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
 app.get('/api/notes', (req, res) => {
-    res.sendFile(path.join(__dirname, '/db/db.json'));
+    readFromFile('./db/db.json').then((data) => res.json(JSON.parse(data)));
     console.info(`${req.method} request received to get notes`);
-})
-
-app.get('/notes', (req, res) => {
-    res.sendFile(path.join(__dirname, '/public/notes.html'));
 })
 
 app.post('/api/notes', (req, res) => {
@@ -24,32 +22,33 @@ app.post('/api/notes', (req, res) => {
         const addNote = {
             title,
             text,
-            // review_id: uuid(), - how do you include this?
+            id: uuidv4()
         }
-        fs.readFile('/db/db.json', "utf8", (err, data) => {
-            if (err) {
-                console.error(err);
-            } else {
-                const parsedNotes = JSON.parse(data);
-                parsedNotes.push(addNote);
-
-                fs.writeFile('/db/db.json', JSON.stringify(parsedNotes, null, 3), (err) =>
-                err ? console.error(err):
-                cnonsole.log(`Note for ${addNote.title} has been written to JSON file`)
-                )
-            }
-        });
-        const response = {
-            status: "success",
-            body: addNote,
-        };
-        console.log(response);
-        res.status(201).json(response);    
+        const parsedData = readAndAppend(addNote, './db/db.json');
+        res.json(parsedData);
     } else {
         res.status(500).json("Error in creating new note");
     }
 });
 
+app.delete('/api/notes/:id', (req, res) => {
+    const noteId = req.params.id;
+    readFromFile('./db/db.json')
+        .then((data) => JSON.parse(data))
+        .then((json) => {
+            const result = json.filter((note) => note.id !== noteId);
+            writeToFile('./db/db.json', result);
+            res.json(result);
+        })
+});
+
+app.get('/notes', (req, res) => {
+    res.sendFile(path.join(__dirname, '/public/notes.html'));
+});
+
+app.get('/*', (req, res) => {
+    res.sendFile(path.join(__dirname, '/public/index.html'));
+});
 
 app.listen(PORT, () =>
     console.log(`App listening at http://localhost:${PORT}`)

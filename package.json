@@ -6,7 +6,6 @@
   "name": "express.js-note-taker",
   "version": "1.0.0",
   "main": "server.js",
-  "devDependencies": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/patrickmc19/express.js-note-taker.git"
@@ -14,7 +13,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "uuid": "^9.0.0"
   },
   "bugs": {
     "url": "https://github.com/patrickmc19/express.js-note-taker/issues"
