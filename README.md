@@ -48,7 +48,7 @@ This helps business professionals quickly put together a note list of important 
 
 ## What did you learn?
 
-That helpers can similify the server side javascript code. 
+That helpers can simplify the server side javascript code. 
 
 ## What makes your project stand out?
 
