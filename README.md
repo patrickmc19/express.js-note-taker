@@ -2,7 +2,7 @@
 
 ## Description
 
-Your task is to build a Node.js command-line application that takes in user input to generate a logo and save it as an [SVG file](https://en.wikipedia.org/wiki/Scalable_Vector_Graphics). The application prompts the user to select a color and shape, provide text for the logo, and save the generated SVG to a `.svg` file.
+Your challenge is to create an application called Note Taker that can be used to write and save notes. This application will use an Express.js back end and will save and retrieve note data from a JSON file.
 
 ## User Story
 
@@ -30,8 +30,13 @@ WHEN I click on the Write icon in the navigation at the top of the page
 THEN I am presented with empty fields to enter a new note title and the note’s text in the right-hand column
 ```
 
+## Finished Product
+
+![](./public/assets/photos/express-note-taker.png)
+
 ## Deployed Link
 
+NOTE - link to deployed app has been terminate due to accruing charges.
 [Deployed Website](https://express-note-taker54.herokuapp.com/)
 
 ## What was my motivation?
